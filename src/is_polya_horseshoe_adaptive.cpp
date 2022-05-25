@@ -2,14 +2,14 @@
 
 // [[Rcpp::export(.ISPolya_horseshoe)]]
 Rcpp::List ISPolya_horseshoe(const int n_rep, 
-                    arma::vec y, arma::mat X,
-                    arma::vec b,// arma::mat B,
-                    double r_start, 
-                    arma::vec beta_start,
-                    double max_dist,
-                    int max_r,
-                    double trunc_lambda,
-                    double tau) 
+                             arma::vec y, arma::mat X,
+                             arma::vec b,// arma::mat B,
+                             double r_start, 
+                             arma::vec beta_start,
+                             double max_dist,
+                             int max_r,
+                             double trunc_lambda,
+                             double tau) 
 {
   int p = X.n_cols ;
   int n = X.n_rows ;
@@ -28,25 +28,18 @@ Rcpp::List ISPolya_horseshoe(const int n_rep,
   
   arma::vec beta(p) ;
   beta = beta_start ;
+  arma::vec beta_center = beta_start ;
   
   arma::vec r_new(n) ;
   int r_tmp ;
   arma::vec lambda_truncated(n) ;
   
-  // media e varianza condizionate al vecchio beta
+  // mean and variance conditioned on old beta
   arma::vec lin_pred(n) ;
   arma::vec omega_mean(n) ;
   arma::mat V(n,n) ;
   arma::vec m(n) ;
   arma::vec kappa(n) ;
-  
-  // media e varianza condizionate al nuovo beta
-  arma::vec lin_pred_new(n) ;
-  arma::vec omega_mean_new(n) ;
-  arma::mat V_new(n,n) ;
-  arma::vec m_new(n) ;
-  arma::vec kappa_new(n) ;
-  
   
   // matrice var/cov su beta e parametri horseshoe
   arma::vec nu(p) ;
@@ -62,18 +55,18 @@ Rcpp::List ISPolya_horseshoe(const int n_rep,
   
   arma::mat psi2_out(p, n_rep) ;
   psi2_out.col(0) = psi2 ;
-
+  
   
   for(int i = 0; i < n_rep ; i++)
   {
     //----------------------------------------//
-    // horseshoe
+      // horseshoe
     for(int j = 0; j < p; j++)
     {
       nu(j) = 1/R::rgamma(1, 1/(1 + 1/psi2(j)) ) ;
-      psi2(j) = 1/R::rgamma(1, 1/(1/nu(j) + (beta(j) * beta(j)) / (2*tau2)) ) ;
+      psi2(j) = 1/R::rgamma(1, 1/(1/nu(j) + (beta_center(j) * beta_center(j)) / (2*tau2)) ) ;
     }
-
+    
     for(int j = 0; j < p; j++)
     {
       diagB(j) = tau2 * psi2(j) ;
@@ -82,10 +75,9 @@ Rcpp::List ISPolya_horseshoe(const int n_rep,
     invB = arma::diagmat( 1/diagB ) ;
     psi2_out.col(i) = psi2 ;
     //----------------------------------------//
+      
+    lin_pred = X * beta_center ; // linear predictor
 
-    lin_pred = X * beta ; // linear predictor
-    //Rcout << "beta" << beta << "\n";
-    //Rcout << "lin pred" << lin_pred ;
     for(int j = 0; j < n; j++)
     {
       lambda_truncated(j) = std::min( exp(lin_pred(j)), trunc_lambda ) ;
@@ -107,11 +99,12 @@ Rcpp::List ISPolya_horseshoe(const int n_rep,
     }
     m = V * ( X.t() * kappa + invB * b ) ;
     
-    // estraggo nuovo valore per beta
+    // new beta
     beta = arma::mvnrnd(m, V) ; 
-  //  lin_pred_new = X * beta ;
+    if( logpost(y, X, beta, b, B) - logpost(y, X, beta_center, b, B) > 0 ) { beta_center = beta ; }
     
-    // calcolo i pesi dell'IS
+    
+    // weights
     logw(i) = logpost(y, X, beta, b, B) - dmvnorm_arma(beta, m, V, true) ;
     w(i) = std::exp(logpost(y, X, beta, b, B) - dmvnorm_arma(beta, m, V, true)) ;
     
@@ -120,14 +113,7 @@ Rcpp::List ISPolya_horseshoe(const int n_rep,
 
   }
  
-  /*
-  double w_mean ;
-  w_mean = arma::accu(w) / n_rep ;
-  for(int t = 0; t < n_rep; t++)
-  {
-    w(t) = exp( w(t) ) ;
-  }
-  */
+
   
   return Rcpp::List::create(Rcpp::Named("beta") = beta_out.t(),
                             Rcpp::Named("r") = r_out.t(),

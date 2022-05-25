@@ -1,4 +1,4 @@
-e8c99f3054ae8ce589d7746912af668a *DESCRIPTION
+d06924829c17cf530d1b30ea86acb0f2 *DESCRIPTION
 470e414661e3171ba83a0a9cbf017b6d *NAMESPACE
 509a3f89bd2f12cca89649a7b2403253 *R/RcppExports.R
 c39dacb7fe3ded6c2dc44a9f9b427fe6 *R/emphpd.R
@@ -10,7 +10,7 @@ b7c850e0406e5cfb44613038db1f5251 *R/main.R
 4a23703324b7067f4b0db11f5c013e98 *R/posterior_predictive.R
 5fd27b13707f3a029f6e3a7dfc11b65d *R/sampling.R
 1907e22a2061a981d08d7e8bb9b4fdf1 *R/summary.R
-a93105dfab5f85f51a0036741add546c *build/partial.rdb
+88023d2ada39a0655cbc9958b13461dd *build/partial.rdb
 4effe8a599f434ab05ef164405a67c3d *man/bpr-package.Rd
 ac3e95e39fe69c009dbda3374c58c9f0 *man/mcmc_diagnostics.Rd
 0ad203486d920bbbe7d40f185de8460b *man/merge_sim.Rd
@@ -24,8 +24,8 @@ e3690d9832499d0d8fa055be72bcb320 *man/summary.poisreg.Rd
 a51bef50eb2a94db97094f82e06664c2 *src/RcppExports.cpp
 b5b1e4a04b4148b56b07b1e73d0e8fed *src/commonfunctions.cpp
 397e0d8b824639ad6fa5de3ab45ec912 *src/commonfunctions.h
-1e9a540c3476f09473927cdb9798509c *src/is_polya_adaptive.cpp
-ff83c825aa1067c6d43a98c8df638e94 *src/is_polya_horseshoe_adaptive.cpp
+2faed2d6ad7ae093843a2833b845f9f2 *src/is_polya_adaptive.cpp
+0c733740e4c98df617d5eda22a372025 *src/is_polya_horseshoe_adaptive.cpp
 927d451ff5b9d9e1687143d953ce61c4 *src/mh_polya_adaptive_r.cpp
 6afd22f2e9b56fff96667adb7b638fb3 *src/mh_polya_adaptive_r_burnin.cpp
 4aaf57a28ace0fb89d63f7dad3b6c7db *src/mh_polya_adaptive_r_horseshoe.cpp

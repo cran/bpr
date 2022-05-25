@@ -12,7 +12,7 @@ Rcpp::List ISPolya(const int n_rep,
 {
   int p = X.n_cols ;
   int n = X.n_rows ;
-  
+   
   // IS quantities 
   arma::vec w(n_rep) ;
   arma::vec logw(n_rep) ;
@@ -28,30 +28,24 @@ Rcpp::List ISPolya(const int n_rep,
   r_out.col(0).fill(r_start) ;
   
   arma::vec beta = beta_start ;
+  arma::vec beta_center = beta_start ;
   
   arma::vec r_new(n) ;
   int r_tmp ;
   arma::vec lambda_truncated(n) ;
   
-  // media e varianza condizionate al vecchio beta
+  // mean and variance (conditioned on old beta)
   arma::vec lin_pred(n) ;
   arma::vec omega_mean(n) ;
   arma::mat V(n,n) ;
   arma::vec m(n) ;
   arma::vec kappa(n) ;
   
-  // media e varianza condizionate al nuovo beta
-  arma::vec lin_pred_new(n) ;
-  arma::vec omega_mean_new(n) ;
-  arma::mat V_new(n,n) ;
-  arma::vec m_new(n) ;
-  arma::vec kappa_new(n) ;
-  
- // double k ;
+
   for(int i = 0; i < n_rep ; i++)
   {
     
-    lin_pred = X * beta ; // linear predictor
+    lin_pred = X * beta_center ; // linear predictor
     for(int j = 0; j < n; j++)
     {
       lambda_truncated(j) = std::min( exp(lin_pred(j)), trunc_lambda ) ;
@@ -73,11 +67,12 @@ Rcpp::List ISPolya(const int n_rep,
     }
     m = V * ( X.t() * kappa + invB * b ) ;
     
-    // estraggo nuovo valore per beta
+    // new beta
     beta = arma::mvnrnd(m, V) ; 
-    lin_pred_new = X * beta ;
     
-    // calcolo i pesi dell'IS
+    if( logpost(y, X, beta, b, B) - logpost(y, X, beta_center, b, B) > 0 ) { beta_center = beta ; }
+    
+    // weights
     w(i) = logpost(y, X, beta, b, B) - dmvnorm_arma(beta, m, V, true) ;
     logw(i) = logpost(y, X, beta, b, B) - dmvnorm_arma(beta, m, V, true) ;
     
