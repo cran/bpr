@@ -1,4 +1,4 @@
-d06924829c17cf530d1b30ea86acb0f2 *DESCRIPTION
+fa121f1562d1212c19a940ee5b1d0809 *DESCRIPTION
 470e414661e3171ba83a0a9cbf017b6d *NAMESPACE
 509a3f89bd2f12cca89649a7b2403253 *R/RcppExports.R
 c39dacb7fe3ded6c2dc44a9f9b427fe6 *R/emphpd.R
@@ -10,7 +10,7 @@ b7c850e0406e5cfb44613038db1f5251 *R/main.R
 4a23703324b7067f4b0db11f5c013e98 *R/posterior_predictive.R
 5fd27b13707f3a029f6e3a7dfc11b65d *R/sampling.R
 1907e22a2061a981d08d7e8bb9b4fdf1 *R/summary.R
-88023d2ada39a0655cbc9958b13461dd *build/partial.rdb
+c18b0a004f93819fc0b931164bdc69bd *build/partial.rdb
 4effe8a599f434ab05ef164405a67c3d *man/bpr-package.Rd
 ac3e95e39fe69c009dbda3374c58c9f0 *man/mcmc_diagnostics.Rd
 0ad203486d920bbbe7d40f185de8460b *man/merge_sim.Rd
