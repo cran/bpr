@@ -1,4 +1,4 @@
-e3025aae916d515a17e5a29801dc14b9 *DESCRIPTION
+fc7d7bf8d7593328bddb96ba81ea3b54 *DESCRIPTION
 2c48eb384ef2de474245801b12a232f6 *NAMESPACE
 9a54e203701210191da28337aba4e94d *R/RcppExports.R
 341f4c411390c75e63a87cad3186a835 *R/bpr-package.R
@@ -22,7 +22,7 @@ e3690d9832499d0d8fa055be72bcb320 *man/summary.poisreg.Rd
 dabf6e18c628e0fdcaf2b8da95f8ec2c *src/Makevars
 dabf6e18c628e0fdcaf2b8da95f8ec2c *src/Makevars.win
 a51bef50eb2a94db97094f82e06664c2 *src/RcppExports.cpp
-be964aae1e4106c233155b4f06d55695 *src/commonfunctions.cpp
+42cdeabf385ec695bf7ea087cc2a4dcb *src/commonfunctions.cpp
 397e0d8b824639ad6fa5de3ab45ec912 *src/commonfunctions.h
 e69c0af698ccbe4f9db6f1a53af47b41 *src/is_polya_adaptive.cpp
 8621678ec6c18a0941a5e7d182b79686 *src/is_polya_horseshoe_adaptive.cpp
